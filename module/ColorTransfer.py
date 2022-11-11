@@ -161,14 +161,11 @@ class ColorTransfer:
     def get_available_methods():
         av_methods = []
         for met in available_methods:
-            print(met)
-            #with open("Options/" + met + "/options.json", 'r') as f:
             dirname = os.path.dirname(__file__)
             filename = os.path.join(dirname, "Options/" + met + ".json")
 
             with open(filename, 'r') as f:
                 options = json.load(f)
-            #print(options)
 
             av_m = {
                 "name": met,

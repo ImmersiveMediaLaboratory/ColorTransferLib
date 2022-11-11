@@ -3,7 +3,7 @@ opencv-contrib-python==4.6.0.66
 numba==0.55.2
 scipy==1.8.1
 matplotlib==3.5.2
-tensorflow==2.9.1
+tensorflow==2.10.0
 torchfile==0.1.0
 scikit-image==0.19.3
 seaborn==0.11.2
@@ -14,3 +14,4 @@ oct2py==5.5.1
 tensorflow-probability==0.18.0
 tf_slim==1.1.0
 pyntcloud==0.3.1
+scikit-learn==1.1.3

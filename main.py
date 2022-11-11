@@ -18,6 +18,9 @@ import json
 from module.Utils.Math import get_random_3x3rotation_matrix
 import numpy as np
 from module.Algorithms.NeuralStyleTransfer.NeuralStyleTransfer import NeuralStyleTransfer
+from module.Evaluation.SSIM.SSIM import SSIM
+from module.Evaluation.PSNR.PSNR import PSNR
+from module.Evaluation.HistogramIntersection.HistogramIntersection import HistogramIntersection
 import cv2
 import tensorflow_probability as tfp
 import tensorflow as tf
@@ -48,6 +51,15 @@ import os
 # ------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
+
+    src_img = "data/images/WhiteRose.jpg"
+    ref_img = "data/images/rose.jpg"
+    src = Image(file_path=src_img)
+    ref = Image(file_path=ref_img)
+    cstat = HistogramIntersection.apply(src, ref)
+    print(cstat)
+    exit()
+
     ct_approach = "GlobalColorTransfer"
     ct_input = "img-img"
     #src_img = "data/images/2020_Lee_Example-18_Source.png"

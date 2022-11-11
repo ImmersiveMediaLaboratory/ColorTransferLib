@@ -139,16 +139,25 @@ class Image:
     # ------------------------------------------------------------------------------------------------------------------
     # returns the color histogram, mean and variance
     # ------------------------------------------------------------------------------------------------------------------
-    def get_color_statistic(self):
+    def get_color_statistic(self, bins=256):
         color = self.get_colors()
         rgb_c = (color * 255.0).astype(np.int).reshape(color.shape[0], color.shape[2])
-        histo_red = np.asarray(np.histogram(rgb_c[:,0], bins=np.arange(257))[0]).reshape(256,1)
-        histo_green = np.asarray(np.histogram(rgb_c[:,1], bins=np.arange(257))[0]).reshape(256,1)
-        histo_blue = np.asarray(np.histogram(rgb_c[:,2], bins=np.arange(257))[0]).reshape(256,1)
+        histo_red = np.asarray(np.histogram(rgb_c[:,0], bins=np.arange(bins+1))[0]).reshape(bins,1)
+        histo_green = np.asarray(np.histogram(rgb_c[:,1], bins=np.arange(bins+1))[0]).reshape(bins,1)
+        histo_blue = np.asarray(np.histogram(rgb_c[:,2], bins=np.arange(bins+1))[0]).reshape(bins,1)
         histo = np.concatenate((histo_red, histo_green, histo_blue), axis=1)
         mean = np.mean(rgb_c, axis=0).astype(np.int)
         std = np.std(rgb_c, axis=0).astype(np.int)
         return histo, mean, std
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # returns the 3D color histogram
+    # ------------------------------------------------------------------------------------------------------------------
+    def get_color_statistic_3D(self, bins=[256,256,256]):
+        color = self.get_colors()
+        rgb_c = (color * 255.0).astype(np.int).reshape(color.shape[0], color.shape[2])
+        histo = np.asarray(np.histogramdd(rgb_c, bins)[0])
+        return histo
 
     # ------------------------------------------------------------------------------------------------------------------
     # return image width
