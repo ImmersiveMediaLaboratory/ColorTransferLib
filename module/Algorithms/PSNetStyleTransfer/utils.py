@@ -1,8 +1,6 @@
 import os
 
 import h5py
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -12,8 +10,12 @@ from PIL import Image
 from pyntcloud import PyntCloud
 from sklearn.metrics import auc, roc_curve
 
-matplotlib.use('TkAgg')  #uncomment this line if you are using macos
-
+import matplotlib
+try:
+    matplotlib.use('TkAgg')#uncomment this line if you are using macos
+except:
+    pass
+import matplotlib.pyplot as plt
 
 def show_all_trainable_variables():
     model_vars = tf.compat.v1.trainable_variables()

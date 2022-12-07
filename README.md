@@ -14,6 +14,10 @@ python setup.py bdist_wheel
 pip install --force-reinstall ../ColorTransferLib/dist/colortransfer-0.0.2-py3-none-any.whl 
 ``
 
+``
+sudo apt-get install octave
+``
+
 run: for a in /sys/bus/pci/devices/*; do echo 0 | sudo tee -a $a/numa_node; done
 to get rid of the info: successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
 
