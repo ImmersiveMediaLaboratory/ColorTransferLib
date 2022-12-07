@@ -1,7 +1,7 @@
 [
   {
     "name": "cluster_num",
-    "default": 3,
+    "default": 5,
     "type": "int",
     "values": [],
     "tooltip": "Number of clusters",
@@ -9,7 +9,7 @@
   },
   {
     "name": "fuzzier",
-    "default": 1.1,
+    "default": 1.9,
     "type": "float",
     "values": [],
     "tooltip": "Controls how fuzzy the cluster boundary should be",

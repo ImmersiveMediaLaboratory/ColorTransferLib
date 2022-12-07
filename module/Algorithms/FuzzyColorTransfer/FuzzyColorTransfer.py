@@ -34,6 +34,8 @@ import cv2
 #   highly automatically and more effective.
 #
 # Link: https://doi.org/10.1109/FSKD.2010.5569560
+#
+# TODO: Fix lab color transfer
 # ----------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
 class FuzzyColorTransfer:
@@ -87,8 +89,8 @@ class FuzzyColorTransfer:
         term_error = opt.error
 
         # [2] Convert RGB to lab color space
-        src = ColorSpaces.rgb_to_lab_host(src)
-        ref = ColorSpaces.rgb_to_lab_host(ref)
+        #src = ColorSpaces.rgb_to_lab_host(src)
+        #ref = ColorSpaces.rgb_to_lab_host(ref)
 
 
         # [3] reshaping because input is of size (num_pixels, 1, 3)
@@ -147,14 +149,11 @@ class FuzzyColorTransfer:
         for ks, ws in enumerate(weights_s):
             for kr, wr in enumerate(weights_r):
                 B.add_edge(ks, kr+clusters, weight=np.linalg.norm(ws-wr))
-        #print(B)
+
         my_matching = nx.bipartite.matching.minimum_weight_full_matching(B, np.arange(clusters), "weight")
-        #print(my_matching)
-        #print(my_matching[0])
+
         for i in range(clusters):
             mapping[i] = my_matching[i] - clusters
-        #print(mapping)
-        #print(weights)
 
         # [7] Apply Reinhard's Color Transfer per cluster combination
         lab_new = np.zeros((dim, src_pix_num))
@@ -176,15 +175,10 @@ class FuzzyColorTransfer:
             lab_new[1] += np.sum(a_c * membership_s[:,c:c+1], axis=1)
             lab_new[2] += np.sum(b_c * membership_s[:,c:c+1], axis=1)
 
-        #print(lab_new)
-        #print(lab_new.T.reshape((src_pix_num,dim)))
         lab_new = lab_new.T.reshape((src_pix_num, dim))
 
         # [8] Convert to RGB
-        lab_new = lab_new.reshape(src_pix_num, 1, dim)
-        lab_new = ColorSpaces.lab_to_rgb_host(lab_new)
+        #lab_new = lab_new.reshape(src_pix_num, 1, dim)
+        #lab_new = ColorSpaces.lab_to_rgb_host(lab_new)
         lab_new = np.clip(lab_new, 0.0, 1.0)
-        #print(lab_new)
-        print(np.max(lab_new))
-        #print((lab_new*255.0)[5423])
         return lab_new

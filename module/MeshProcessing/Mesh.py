@@ -7,7 +7,7 @@ This file is released under the "MIT License Agreement".
 Please see the LICENSE file that should have been included as part of this package.
 """
 import numpy as np
-
+import open3d as o3d
 
 # ----------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
@@ -147,3 +147,72 @@ class Mesh:
         self.__num_faces = len(faces)
 
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # RGB color space is quantized in a 10x10x10 area 
+    # ------------------------------------------------------------------------------------------------------------------
+    def get_3D_color_histogram(self):
+        cols = self.get_colors()
+        upd = np.clip(np.floor(cols * 10).astype(np.int8), 0, 9).reshape(cols.shape[0], 3)
+        uni = np.unique(upd, axis=0, return_counts=True)
+        con = np.concatenate((uni[0], uni[1].reshape((-1, 1))), axis=1)
+        return con
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # create voxelgrid from given point cloud 
+    # ------------------------------------------------------------------------------------------------------------------
+    def get_voxel_grid(self):
+        # Initialize a point cloud object
+        pcd = o3d.geometry.PointCloud()
+        # Add the points, colors and normals as Vectors
+        pcd.points = o3d.utility.Vector3dVector(self.get_vertex_positions().reshape(-1, 3))
+        pcd.colors = o3d.utility.Vector3dVector(self.get_colors().reshape(-1, 3))
+        pcd.normals = o3d.utility.Vector3dVector(self.get_normals().reshape(-1, 3))
+        # fit to unit cube
+        sc_f_min = pcd.get_min_bound()
+        sc_f_max = pcd.get_max_bound()
+        sc_f = np.max(sc_f_max - sc_f_min)
+        #pcd.scale(1 / sc_f, center=pcd.get_center())
+        # Create a voxel grid from the point cloud with a voxel_size of 0.01
+        voxel_grid=o3d.geometry.VoxelGrid.create_from_point_cloud(pcd,voxel_size=0.02 * sc_f)
+        #voxel_grid.scale(scale=57.0)
+
+        voxelret = {
+            "centers": [],#np.empty((0,3), np.float32),
+            "colors": []#np.empty((0,3), np.float32)
+        }
+
+        voxels = voxel_grid.get_voxels()
+
+        for vox in voxels:
+            #np.append(voxelret["centers"], np.array([voxel_grid.get_voxel_center_coordinate(vox.grid_index)]), axis=0)
+            #np.append(voxelret["colors"], np.array([vox.color]), axis=0)
+            voxelret["centers"].append(voxel_grid.get_voxel_center_coordinate(vox.grid_index))
+            voxelret["colors"].append(vox.color)
+
+        voxelret["centers"] = np.asarray(voxelret["centers"])
+        voxelret["colors"] = np.asarray(voxelret["colors"])
+        voxelret["scale"] = 0.02 * sc_f
+
+        return voxelret
+
+        # print(voxels[0])
+        # print(voxels[0].color)
+        # print(voxels[0].grid_index)
+        # print(voxel_grid.get_voxel_center_coordinate(voxels[0].grid_index))
+
+        
+        # # Initialize a visualizer object
+        # vis = o3d.visualization.Visualizer()
+        # # Create a window, name it and scale it
+        # vis.create_window(window_name='Bunny Visualize', width=800, height=600)
+
+        # # Add the voxel grid to the visualizer
+        # vis.add_geometry(voxel_grid)
+
+        # # We run the visualizater
+        # vis.run()
+        # # Once the visualizer is closed destroy the window and clean up
+        # vis.destroy_window()
+
+        # print("awd")
+        

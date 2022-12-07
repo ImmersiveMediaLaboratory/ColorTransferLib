@@ -214,21 +214,23 @@ class PLYLoader:
 
             # positions, vertices and rgb colors have to be available
             # alpha channel and label are optional
-
-            if vertex_props["alpha"]["enabled"]:
-                if vertex_props["label"]["enabled"]:
-                    x, y, z, nx, ny, nz, r, g, b, a, l = vertex_data
-                else:
-                    x, y, z, nx, ny, nz, r, g, b, a = vertex_data
-                    l = "1"
-            else:
-                if vertex_props["label"]["enabled"]:
-                    x, y, z, nx, ny, nz, r, g, b, l = vertex_data
-                    a = "255"
-                else:
-                    x, y, z, nx, ny, nz, r, g, b = vertex_data
-                    a = "255"
-                    l = "1"
+            x, y, z, nx, ny, nz, r, g, b, a = vertex_data
+            l = "1"
+            # TEMPORAILY REMOVED
+            # if vertex_props["alpha"]["enabled"]:
+            #     if vertex_props["label"]["enabled"]:
+            #         x, y, z, nx, ny, nz, r, g, b, a, l = vertex_data
+            #     else:
+            #         x, y, z, nx, ny, nz, r, g, b, a = vertex_data
+            #         l = "1"
+            # else:
+            #     if vertex_props["label"]["enabled"]:
+            #         x, y, z, nx, ny, nz, r, g, b, l = vertex_data
+            #         a = "255"
+            #     else:
+            #         x, y, z, nx, ny, nz, r, g, b = vertex_data
+            #         a = "255"
+            #         l = "1"
 
             # get normalization coefficient for normal vectors to achieve a length of one
             norm_c = math.sqrt(pow(float(nx), 2) + pow(float(ny), 2) + pow(float(nz), 2))
@@ -290,10 +292,13 @@ class PLYLoader:
             write_file.write(str(vertex.get_normal()[0]) + " " + str(vertex.get_normal()[1]) + " " +
                              str(vertex.get_normal()[2]) + " ")
 
-            write_file.write(str(int(vertex.get_color()[0]*255.0)) + " " + str(int(vertex.get_color()[1]*255.0)) + " " +
-                             str(int(vertex.get_color()[2]*255.0)) + " "  + str(int(vertex.get_color()[3]*255.0)) + " ")
 
-            write_file.write(str(vertex.get_label()) + "\n")
+            write_file.write(str(int(vertex.get_color()[0]*255.0)) + " " + str(int(vertex.get_color()[1]*255.0)) + " " +
+                             str(int(vertex.get_color()[2]*255.0)) + " "  + str(int(vertex.get_color()[3]*255.0)) + "\n")
+            # TEMPORARILY REMOVED
+            #write_file.write(str(int(vertex.get_color()[0]*255.0)) + " " + str(int(vertex.get_color()[1]*255.0)) + " " +
+            #                 str(int(vertex.get_color()[2]*255.0)) + " "  + str(int(vertex.get_color()[3]*255.0)) + " ")
+            #write_file.write(str(vertex.get_label()) + "\n")
 
         for face in self.__mesh.get_faces():
             write_file.write("3 " + str(face.get_vertices()[0].get_idx()) + " " + str(face.get_vertices()[1].get_idx()) + " " + 

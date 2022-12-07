@@ -65,7 +65,7 @@
   },
   {
       "name": "max_size",
-      "default": 512,
+      "default": 1024,
       "type": "int",
       "values": [],
       "tooltip": "Maximum width or height of the input images.",

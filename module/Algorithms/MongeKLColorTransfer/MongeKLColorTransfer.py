@@ -81,6 +81,39 @@ class MongeKLColorTransfer:
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
     def apply(src, ref, options=[]):
+        """
+        EPS = 2.2204e-16
+        def MKL(A, B):
+            Da2, Ua = np.linalg.eig(A)
+
+            Da2 = np.diag(Da2)
+            Da2[Da2 < 0] = 0
+            Da = np.sqrt(Da2 + EPS)
+            C = Da @ np.transpose(Ua) @ B @ Ua @ Da
+            Dc2, Uc = np.linalg.eig(C)
+
+            Dc2 = np.diag(Dc2)
+            Dc2[Dc2 < 0] = 0
+            Dc = np.sqrt(Dc2 + EPS)
+            Da_inv = np.diag(1 / (np.diag(Da)))
+            T = Ua @ Da_inv @ Uc @ Dc @ np.transpose(Uc) @ Da_inv @ np.transpose(Ua)
+            return T
+
+        X0 = np.reshape(src, (-1, 3), 'F')
+        X1 = np.reshape(ref, (-1, 3), 'F')
+        A = np.cov(X0, rowvar=False)
+        B = np.cov(X1, rowvar=False)
+        T = MKL(A, B)
+        mX0 = np.mean(X0, axis=0)
+        mX1 = np.mean(X1, axis=0)
+        XR = (X0 - mX0) @ T + mX1
+        IR = np.reshape(XR, src.shape, 'F')
+        IR = np.real(IR)
+        IR[IR > 1] = 1
+        IR[IR < 0] = 0
+
+        return IR
+        """
         opt = BaseOptions(options)
 
 
@@ -99,6 +132,17 @@ class MongeKLColorTransfer:
         src_covsr = fractional_matrix_power(src_cov, -0.5)
 
         M = np.dot(src_covsr, np.dot(fractional_matrix_power(np.dot(src_covs, np.dot(ref_cov, src_covs)), 0.5), src_covsr))
+
+        # has to be rewritten
+        mean_src = np.mean(src_color_rgb, axis=0)
+        mean_ref = np.mean(ref_color_rgb, axis=0)
+        XR = (src_color_rgb - mean_src) @ M + mean_ref
+        IR = np.reshape(XR, src.shape, 'F')
+        IR = np.real(IR)
+        IR[IR > 1] = 1
+        IR[IR < 0] = 0
+
+        return IR
 
         out = np.dot(src_color_rgb, M)
 
