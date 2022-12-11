@@ -9,24 +9,18 @@ Please see the LICENSE file that should have been included as part of this packa
 
 
 import time
-
-import torch
-
-
-
-from module.MeshProcessing.PLYLoader import PLYLoader
-from module.ImageProcessing.Image import Image
-from module.ColorTransfer import ColorTransfer
-import json
-
-
-
-from module.Utils.Math import get_random_3x3rotation_matrix
 import numpy as np
-from module.Evaluation.SSIM.SSIM import SSIM
-from module.Evaluation.PSNR.PSNR import PSNR
-from module.Evaluation.HistogramIntersection.HistogramIntersection import HistogramIntersection
-from module.Evaluation.PerceptualMetric.PerceptualMetric import PerceptualMetric
+
+from ColorTransferLib.MeshProcessing.PLYLoader import PLYLoader
+from ColorTransferLib.ImageProcessing.Image import Image
+from ColorTransferLib.ColorTransfer import ColorTransfer
+
+
+from ColorTransferLib.Utils.Math import get_random_3x3rotation_matrix
+from ColorTransferLib.Evaluation.SSIM.SSIM import SSIM
+from ColorTransferLib.Evaluation.PSNR.PSNR import PSNR
+from ColorTransferLib.Evaluation.HistogramIntersection.HistogramIntersection import HistogramIntersection
+from ColorTransferLib.Evaluation.PerceptualMetric.PerceptualMetric import PerceptualMetric
 import cv2
 import tensorflow_probability as tfp
 import tensorflow as tf
@@ -73,27 +67,13 @@ if __name__ == '__main__':
     #exit()
 
     ct_approach = "GlobalColorTransfer"
-    ct_input = "img-img"
-    #src_img = "data/images/2020_Lee_Example-18_Source.png"
-    #ref_img = "data/images/2020_Lee_Example-18_Reference.png"
-    #src_img = "data/images/starry-night.jpg"
-    #ref_img = "data/images/woman-with-hat-matisse.jpg"
-    #src_img = "data/images/WhiteRose.jpg"
-    #ref_img = "data/images/rose.jpg"
-    #src_img = "data/images/the_scream.jpg"
-    #ref_img = "data/images/northern_lights.jpg"
-    #src_pc = "data/pointclouds/athen_postprocessed_simp.ply"
-    #loader = PLYLoader(src_pc)
-    #src = loader.get_mesh()
-    #print(src.get_voxel_grid())
-    #exit()
-    src_img = "data/david.png"
-    ref_img = "data/david.png"
-    #ref_pc = "data/pointclouds/lamp.ply"
+    ct_input = "pc-img"
 
-    #src = Image(file_path=src_img)
-    # print(src.get_color_statistic()[2])
-    # exit()
+    ref_img = "data/images/starry-night.jpg"
+    src_img = "data/images/woman-with-hat-matisse.jpg"
+
+    src_pc = "data/pointclouds/athen_postprocessed_simp.ply"
+    ref_pc = "data/pointclouds/Wappentier_blue.ply"
 
 
     if ct_input == "img-img":
@@ -114,13 +94,10 @@ if __name__ == '__main__':
         ref = Image(file_path=ref_img)
     start_time = time.time()
 
-    with open("module/Options/" + ct_approach + ".json", 'r') as f:
-        options = json.load(f)
-    #options[0]["max_iterations"] = 5000
 
-    ct = ColorTransfer(src, ref, options)
-
-    output = ct.apply(ct_approach)
+    ct = ColorTransfer(src, ref, ct_approach)
+    ct.set_option("colorspace", "rgb")
+    output = ct.apply()
 
     print("TOTAL: " + str(time.time() - start_time))
 
@@ -132,5 +109,5 @@ if __name__ == '__main__':
     elif ct_input == "pc-pc" or ct_input == "pc-img":
         out_loader = PLYLoader(mesh=output)
         #out_loader.write('data/pointclouds/out.ply')
-        out_loader.write("data/pointclouds/out.ply")
+        out_loader.write("data/out.ply")
 

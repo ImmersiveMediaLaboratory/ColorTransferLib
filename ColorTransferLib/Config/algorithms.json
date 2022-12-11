@@ -1,0 +1,14 @@
+[
+    "GlobalColorTransfer",
+    "PdfColorTransfer",
+    "NeuralStyleTransfer",
+    "HistogramAnalogy",
+    "DeepPhotoStyleTransfer",
+    "CamsTransfer",
+    "TpsColorTransfer",
+    "FuzzyColorTransfer",
+    "GmmEmColorTransfer",
+    "Eb3dColorTransfer",
+    "PSNetStyleTransfer",
+    "MongeKLColorTransfer"
+]

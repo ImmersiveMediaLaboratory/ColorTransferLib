@@ -1,18 +1,18 @@
 import setuptools
 
 setuptools.setup(
-    name="colortransfer",
+    name="ColorTransferLib",
     version="0.0.2",
     author="Herbert Potechius",
     author_email="potechius.herbert@gmail.com",
-    description="A small example package",
+    description="This library provides color transfer algorithms which were published in scientific papers.",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    package_data={"": ['Options/*.json','Algorithms/TpsColorTransfer/L2RegistrationForCT/*/*/*']},
+    package_data={"": ['Options/*.json','Config/*.json','Algorithms/TpsColorTransfer/L2RegistrationForCT/*/*/*']},
     include_package_data=True,
     python_requires='>=3.8',
 )

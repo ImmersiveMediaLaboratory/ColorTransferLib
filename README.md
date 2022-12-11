@@ -11,7 +11,7 @@ python setup.py bdist_wheel
 ``
 
 ``
-pip install --force-reinstall ../ColorTransferLib/dist/colortransfer-0.0.2-py3-none-any.whl 
+pip install --force-reinstall ../ColorTransferLib/dist/ColorTransferLib-0.0.2-py3-none-any.whl 
 ``
 
 ``

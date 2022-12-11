@@ -1,0 +1,5 @@
+[
+    "SSIM",
+    "PSNR",
+    "HistogramIntersection"
+]
