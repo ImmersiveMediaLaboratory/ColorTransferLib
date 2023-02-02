@@ -107,8 +107,9 @@ class ColorTransfer:
             out_colors = DeepPhotoStyleTransfer.apply(src_color, ref_color, self.__options)
             self.__out.set_raw(out_colors)
         elif self.__approach == "TpsColorTransfer":
-            src_color = self.__src.get_raw() * 255.0
-            ref_color = self.__ref.get_raw() * 255.0
+            # NOTE RGB space needs multiplication with 255
+            src_color = self.__src.get_raw() 
+            ref_color = self.__ref.get_raw() 
             out_colors = TpsColorTransfer.apply(src_color, ref_color, self.__options)
             self.__out.set_raw(out_colors)
         elif self.__approach == "FuzzyColorTransfer":
@@ -130,12 +131,18 @@ class ColorTransfer:
             out_colors = GmmEmColorTransfer.apply(src_color, ref_color, self.__options)
             self.__out.set_raw(out_colors)
         elif self.__approach == "Eb3dColorTransfer":
-            out_colors = Eb3dColorTransfer.apply(self.__src, self.__ref, self.__options)
-            self.__out.set_colors(out_colors)
+            if self.__src.get_type() == "Image":
+                print("No support for source with type <Image>.")
+                exit(1)
+            else:
+                out_colors = Eb3dColorTransfer.apply(self.__src, self.__ref, self.__options)
+                self.__out.set_colors(out_colors)
         elif self.__approach == "PSNetStyleTransfer":
-            #out_colors = PSNetStyleTransfer.apply(self.__src, self.__ref, options)
-            #self.__out.set_colors(out_colors)
-            self.__out = PSNetStyleTransfer.apply(self.__src, self.__ref, self.__options)
+            if self.__src.get_type() == "Image":
+                print("No support for source with type <Image>.")
+                exit(1)
+            else:
+                self.__out = PSNetStyleTransfer.apply(self.__src, self.__ref, self.__options)
 
         return self.__out
 

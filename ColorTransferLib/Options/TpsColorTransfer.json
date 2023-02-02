@@ -1,7 +1,7 @@
 [
   {
     "name": "cluster_num",
-    "default": 50,
+    "default": 10,
     "type": "int",
     "values": [],
     "tooltip": "Number of cluster per gaussian mixture model.",
@@ -17,7 +17,7 @@
   },
   {
     "name": "colorspace",
-    "default": "RGB",
+    "default": "CIELab",
     "type": "str",
     "values": ["RGB", "CIELab"],
     "tooltip": "Colorspace.",

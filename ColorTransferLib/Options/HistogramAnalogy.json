@@ -17,7 +17,7 @@
   },
   {
     "name": "loadSize",
-    "default": 286,
+    "default": 512,
     "type": "int",
     "values": [],
     "tooltip": "Scale images to this size.",
@@ -25,7 +25,7 @@
   },
   {
     "name": "fineSize",
-    "default": 256,
+    "default": 512,
     "type": "int",
     "values": [],
     "tooltip": "Then crop to this size.",
@@ -153,7 +153,7 @@
   },
   {
     "name": "display_winsize",
-    "default": 256,
+    "default": 512,
     "type": "int",
     "values": [],
     "tooltip": "Display window size",
@@ -337,10 +337,10 @@
   },
   {
     "name": "l_bin",
-    "default":	64,
+    "default": 8,
     "type": "int",
     "values": [],
-    "tooltip": "ab_bin",
+    "tooltip": "l_bin",
     "changeable": true
   },
   {
@@ -348,7 +348,7 @@
     "default":	false,
     "type": "bool",
     "values": [true, false],
-    "tooltip": "ab_bin",
+    "tooltip": "isTrain",
     "changeable": false
   }
 ]

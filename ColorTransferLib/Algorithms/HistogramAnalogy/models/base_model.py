@@ -44,6 +44,6 @@ class BaseModel():
         elif ckpt_name is not None:
             save_filename = '%s_net_%s.pth' % (ckpt_name, network_label)
         save_path = os.path.join(self.save_dir, save_filename)
-
+        
         network.load_state_dict(torch.load(save_path))
 
