@@ -29,8 +29,24 @@ from torch import nn
 from torch.functional import F
 from copy import copy
 import os
+import gdown
+import zipfile36 as zipfile
 
+# download Models folder
+if not os.path.exists("Models") and not os.path.exists("data"):
+    print("Download DATA.zip ...")
+    url = "https://drive.google.com/file/d/1ShJpPFJ9vCu5Vb7FJk7aSnn7ywFiT0GJ/view?usp=share_link"
+    output_path = 'DATA.zip'
+    gdown.download(url, output_path, quiet=False, fuzzy=True)
+    # Extract DATA.zip
+    print("Extract DATA.zip ...")
+    with zipfile.ZipFile("DATA.zip","r") as zip_ref:
+        zip_ref.extractall()
+    # Delete DATA.zip
+    print("Delete DATA.zip ...")
+    os.remove("DATA.zip")
 
+exit()
 
 
 # ------------------------------------------------------------------------------------------------------------------
