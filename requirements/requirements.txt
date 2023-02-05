@@ -19,3 +19,4 @@ open3d==0.16.0
 imblearn
 gdown
 zipfile36 
+h5py
