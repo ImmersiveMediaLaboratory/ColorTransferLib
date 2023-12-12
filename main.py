@@ -20,15 +20,15 @@ from ColorTransferLib.ColorTransfer import ColorTransfer, ColorTransferEvaluatio
 # ------------------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':  
     # 2D Color/Style Transfer Example
-    src = Image(file_path='/home/potechius/Downloads/2D/src.png')
-    ref = Image(file_path='/home/potechius/Downloads/2D/ref.png')  
-    out = Image(file_path='/home/potechius/Downloads/2D/result_GLO.png')  
+    src = Image(file_path='/Volumes/External/ColorTransferTest/256_abstract-00.png')
+    ref = Image(file_path='/Volumes/External/ColorTransferTest/256_abstract-01.png')  
+    #out = Image(file_path='/Users/potechius/Library/Mobile\ Documents/com\~apple\~CloudDocs/Downloads/ColorTransferTest/out.png')  
     
-    cte = ColorTransferEvaluation(src, ref, out)
-    eva = cte.apply("VSI")
-    print(eva)
+    #cte = ColorTransferEvaluation(src, ref, out)
+    #eva = cte.apply("VSI")
+    #print(eva)
 
-    exit()
+    #exit()
 
     #src = Mesh(file_path='/home/potechius/Downloads/3D/src.ply', datatype="PointCloud")
     #ref = Mesh(file_path='/home/potechius/Downloads/3D/ref.ply', datatype="PointCloud")  
@@ -37,12 +37,12 @@ if __name__ == '__main__':
     #ref = Mesh(file_path='/home/potechius/Downloads/3D_mesh/Pillow.obj', datatype="Mesh")  
 
 
-    algo = "GPC"
+    algo = "GMM"
     ct = ColorTransfer(src, ref, algo)
     out = ct.apply()
 
     if out["status_code"] == 0:
-        out["object"].write("/home/potechius/Downloads/3D_mesh/result_"+algo)
+        out["object"].write("/Volumes/External/ColorTransferTest/out")
     else:
         print("Error: " + out["response"])
     print("Done")

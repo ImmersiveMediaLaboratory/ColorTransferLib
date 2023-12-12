@@ -13,3 +13,4 @@ from . import RHG
 from . import TPS
 from . import CCS
 from . import GPC
+from . import GMM
