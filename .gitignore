@@ -6,6 +6,6 @@
 /ColorTransferLib.egg-info/
 /dist/
 __pycache__/
-**.pyc
-.DS_Store
+**/**.pyc
+**/.DS_Store
 
